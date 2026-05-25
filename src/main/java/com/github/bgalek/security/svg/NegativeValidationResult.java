@@ -7,11 +7,11 @@ class NegativeValidationResult implements ValidationResult {
 
     @Override
     public boolean hasViolations() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Set<String> getOffendingElements() {
-        return Collections.emptySet();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

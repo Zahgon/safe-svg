@@ -3,7 +3,6 @@ package com.github.bgalek.security.svg;
 import org.owasp.html.HtmlChangeListener;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
-
 import javax.xml.parsers.DocumentBuilder;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -21,10 +20,13 @@ import java.util.regex.Pattern;
 public class SvgSecurityValidator implements XssDetector {
 
     private static final Pattern JAVASCRIPT_PROTOCOL_IN_CSS_URL = Pattern.compile("url\\(.?javascript");
+
     private static final Pattern SCRIPT_TAG = Pattern.compile("</?\\s*(?)script\\s*[a-zA-Z=/\"]*\\s*>", Pattern.CASE_INSENSITIVE);
 
     private final String[] svgElements;
+
     private final String[] svgAttributes;
+
     private final DocumentBuilder xmlParser;
 
     /**
@@ -44,7 +46,7 @@ public class SvgSecurityValidator implements XssDetector {
     }
 
     public static SvgSecurityValidatorBuilder builder() {
-        return new SvgSecurityValidatorBuilder();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -56,15 +58,12 @@ public class SvgSecurityValidator implements XssDetector {
      */
     @Override
     public ValidationResult validate(String input) {
-        if (xmlParser != null) validateXMLSchema(input);
-        Set<String> offendingElements = getOffendingElements(input);
-        if (offendingElements.isEmpty()) return new NegativeValidationResult();
-        return new PositiveValidationResult(offendingElements);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ValidationResult validate(byte[] input) {
-        return validate(new String(input, StandardCharsets.UTF_8));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void validateXMLSchema(String input) {
@@ -77,13 +76,11 @@ public class SvgSecurityValidator implements XssDetector {
     }
 
     private Set<String> getOffendingElements(String xml) {
-        if (JAVASCRIPT_PROTOCOL_IN_CSS_URL.matcher(xml).find()) return Collections.singleton("style");
-        if (SCRIPT_TAG.matcher(xml).find()) return Collections.singleton("script");
-        PolicyFactory policy = new HtmlPolicyBuilder()
-                .allowElements(this.svgElements)
-                .allowAttributes(this.svgAttributes).globally()
-                .allowUrlProtocols("https")
-                .toFactory();
+        if (JAVASCRIPT_PROTOCOL_IN_CSS_URL.matcher(xml).find())
+            return Collections.singleton("style");
+        if (SCRIPT_TAG.matcher(xml).find())
+            return Collections.singleton("script");
+        PolicyFactory policy = new HtmlPolicyBuilder().allowElements(this.svgElements).allowAttributes(this.svgAttributes).globally().allowUrlProtocols("https").toFactory();
         Set<String> violations = new HashSet<>();
         policy.sanitize(xml, violationsCollector(), violations);
         return violations;
@@ -94,14 +91,15 @@ public class SvgSecurityValidator implements XssDetector {
     }
 
     private static class ListHtmlChangeListener implements HtmlChangeListener<Set<String>> {
+
         @Override
         public void discardedTag(Set<String> context, String elementName) {
-            Objects.requireNonNull(context).add(elementName);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void discardedAttributes(Set<String> context, String tagName, String... attributeNames) {
-            Objects.requireNonNull(context).addAll(Arrays.asList(attributeNames));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }
